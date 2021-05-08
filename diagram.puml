@@ -1,0 +1,49 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+'abstract class AbstractList
+'abstract AbstractCollection
+'interface List
+'interface Collection
+'
+'List <|-- AbstractList
+'Collection <|-- AbstractCollection
+'
+'Collection <|- List
+'AbstractCollection <|- AbstractList
+'AbstractList <|-- ArrayList
+'
+'class ArrayList {
+'Object[] elementData
+'size()
+'}
+
+'enum TimeUnit {
+'DAYS
+'HOURS
+'MINUTES
+'}
+BaseActor <|-- AnimeActor
+BaseActor <|-- DActor
+BaseActor <|-- FActor
+AnimeActor <|-- FAnimeActor
+AnimeActor <|-- DAnimeActor
+
+abstract class BaseActor {
+public BaseActor(float x, float y, Stage stage)
+protected draw(Batch batch, TextureRegion texture)
+}
+
+class AnimeActor {
+public AnimeActor(float x, float y, Stage stage)
+private Animation<TextureRegion>
+createAnimationByImages(String[] name, )
+createAnimationBySpriteSheet()
+}
+class FAnimeActor
+class DAnimeActor
+class FActor
+class DActor
+
+
+@enduml

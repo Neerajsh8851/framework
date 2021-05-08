@@ -1,4 +1,4 @@
-package com.mr_neez.framework.textures;
+package com.mr_neez.framework;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
