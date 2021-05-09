@@ -1,25 +1,35 @@
-package com.mr_neez.framework.Actors.anime;
+package com.mr_neez.framework.entity.plugins;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
-import com.mr_neez.framework.Actors.BaseActor;
 import com.mr_neez.framework.Res;
+import com.mr_neez.framework.entity.Entity;
 
-public class AnimeActor extends BaseActor {
+public class AnimationPlugin {
 
     private Animation<TextureRegion> animation;
-    private float elapseTime;
+    private float stateTime;
     private boolean animationPause;
+    private Entity entity;
 
+
+    /**
+     * Stores the reference to the entity
+     * @param entity
+     */
+    public AnimationPlugin(Entity entity) {
+        this.entity = entity;
+    }
 
     public void setAnimation(Animation<TextureRegion> anim) {
+        TextureRegion texture = anim.getKeyFrame(0);
+        entity.setSize(texture.getRegionWidth(), texture.getRegionHeight());
+        entity.setOrigin(texture.getRegionWidth()/2f, texture.getRegionHeight()/2f);
         this.animation = anim;
     }
+
 
     // ----------------------------------
     // ------CREATE ANIMATION------------
@@ -29,11 +39,11 @@ public class AnimeActor extends BaseActor {
         createAnimationFromImages(frameDuration, Animation.PlayMode.NORMAL,  names);
     }
 
-    protected void createAnimationFromImages(float frameDuration,  Animation.PlayMode playMode, String... names) {
-        Array textureArray = new Array();
+    public void createAnimationFromImages(float frameDuration,  Animation.PlayMode playMode, String... names) {
+        Array<TextureRegion> textureArray = new Array<TextureRegion>();
 
         for (String name : names) {
-            TextureRegion region = new TextureRegion(Res.getTextureByName(name));
+            TextureRegion region = new TextureRegion(Res.loadTexture(name));
             textureArray.add(region);
         }
 
@@ -42,11 +52,11 @@ public class AnimeActor extends BaseActor {
         setAnimation(anim);
     }
 
-    protected void createAnimationFromSheet(float frameDuration, String name, int rows, int cols) {
+    public void createAnimationFromSheet(float frameDuration, String name, int rows, int cols) {
         createAnimationFromSheet(frameDuration, Animation.PlayMode.NORMAL, name, rows, cols);
     }
 
-    protected void createAnimationFromSheet(float frameDuration, Animation.PlayMode playMode, String name, int rows, int cols) {
+    public void createAnimationFromSheet(float frameDuration, Animation.PlayMode playMode, String name, int rows, int cols) {
 
         Texture texture = Res.getTextureByName(name);
         int frameWidth = texture.getWidth() / cols;
@@ -66,39 +76,24 @@ public class AnimeActor extends BaseActor {
     }
 
 
-
-    //-----------------------------------
-    //----------OTHER METHODS------------
-    //-----------------------------------
-    protected TextureRegion currentKeyFrame() {
-        return animation.getKeyFrame(elapseTime);
+    public void animationUpdate(float delta) {
+        if (!animationPause)
+        stateTime += delta;
     }
 
-    protected void setAnimationPause(boolean pause) {
+    public TextureRegion currentKeyFrame() {
+        return animation.getKeyFrame(stateTime);
+    }
+
+    public void setAnimationPause(boolean pause) {
         animationPause = pause;
     }
 
-    protected boolean isAnimationPause() {
+    public boolean isAnimationPause() {
         return animationPause;
     }
 
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-        if (!animationPause)
-        elapseTime += delta;
-    }
-
-
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-
-        Color tint = getColor();
-        batch.setColor(tint);
-
-        if (isVisible()) {
-            draw(batch, currentKeyFrame());
-        }
+    public void reset() {
+        stateTime = 0;
     }
 }

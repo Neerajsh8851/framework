@@ -1,18 +1,21 @@
-package com.mr_neez.framework.Actors;
+package com.mr_neez.framework.entity;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-public class BaseActor extends Actor {
+public class Entity extends Actor {
 
-    protected void init(float x, float y, Stage stage) {
+    public Entity(float x, float y, Stage stage) {
         setPosition(x, y);
         stage.addActor(this);
     }
 
     protected void draw(Batch batch, TextureRegion texture) {
+        // tint
+        batch.setColor(getColor());
+
         batch.draw(
                 texture,
                 getX(), getY(),
@@ -22,4 +25,5 @@ public class BaseActor extends Actor {
                 getRotation()
         );
     }
+
 }

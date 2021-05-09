@@ -7,6 +7,6 @@ import com.mr_neez.framework.Launcher;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new Launcher(), config);
+		new LwjglApplication(Launcher.launchGame(), config);
 	}
 }

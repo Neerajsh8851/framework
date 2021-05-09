@@ -1,16 +1,10 @@
 package com.mr_neez.framework;
 
-import com.badlogic.gdx.Game;
+public class Launcher {
 
-public class Launcher extends Game {
-
-	@Override
-	public void create () {
-		// store the static ref
-		Ref.game = this;
-
-		//TODO: set menu screen as first screen
-		//....
+	public static com.badlogic.gdx.Game launchGame() {
+		Res.initialize();
+		Ref.game = new Game();
+		return Ref.game;
 	}
-
 }
